@@ -23,12 +23,12 @@ function generatePassword (){
 
     //for loop to prompt user
     for (var i = 0; i < passOrder.length; i++) {
-      console.log("we got into the for loop")
+      console.log("we got into the for loop");
       //function for making prompts and validating data
-      function getData(){
+      // function getData(){
         //begin infinitely nested if statements
         if (passOrder[i] === "passLength"){
-          var promptAnswer = prompt(passQueries[i]);
+          var promptAnswer = prompt(passQueries[passOrder[i]]);
             if (promptAnswer.isInteger && ( 8 <= promptAnswer <= 128) ){
               passdata.passLength = promptAnswer;
               return;
@@ -39,7 +39,7 @@ function generatePassword (){
             }
         }
         else {
-          var promptAnswer = prompt(passQueries[i]);
+          var promptAnswer = prompt(passQueries.passOrder[i]);
           if (promptAnswer === ("Y" || "N")){
             passData.passOrder[i] = promptAnswer;
             return;
@@ -50,8 +50,8 @@ function generatePassword (){
           }
         }
         console.log("the function ran")
-        return;
-      }
+        // return;
+      // }
     }
 }
 

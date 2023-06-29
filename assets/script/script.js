@@ -31,14 +31,16 @@ function generatePassword (){
         //begin infinitely nested if statements
         if (passOrder[i] === "passLength"){
           var promptAnswer = prompt(passQueries[passOrder[i]]);
-          if (promptAnswer === null){
-            console.log("null found");
+          if (promptAnswer === null){ // if user hits cancel, exit for loop
             cancellation = true;
             return;
           }
+          console.log(typeof promptAnswer);
           promptAnswer = Number(promptAnswer);
-          if (promptAnswer.isInteger && ( 8 <= promptAnswer <= 128) ){
-            passdata.passLength = promptAnswer;
+          console.log(typeof promptAnswer);
+          console.log(promptAnswer);
+          if (Number.isInteger(promptAnswer) && (8 <= promptAnswer) && (promptAnswer <= 128) ){
+            passData.passLength = promptAnswer;
             return;
           }
           else{
@@ -50,11 +52,11 @@ function generatePassword (){
         else {
           var promptAnswer = prompt(passQueries[passOrder[i]]);
           if (promptAnswer === null){
-            console.log("null found");
+            cancellation = true;
             return;
           }
           if (promptAnswer === ("Y" || "N")){
-            passData.passOrder[i] = promptAnswer;
+            passData[passOrder[i]] = promptAnswer;
             return;
           }
           else{
@@ -64,7 +66,7 @@ function generatePassword (){
           return;
         }
       }
-      if(cancellation ){
+      if(cancellation){
         break getAnswers;
       }
       getData();

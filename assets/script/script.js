@@ -10,6 +10,7 @@ function generatePassword (){
     //define empty array for future .push(), define empty string for future .concat()
     var passData = [];
     var passFinal = "";
+
     var passLength;
     var passInfo;
     var usedChar = [0, 0, 0, 0]
@@ -22,7 +23,6 @@ function generatePassword (){
       passNum: "Would you like numbers? Please answer Y/N.",
       passSpec: "Would you like special characters? Please answer Y/N.",
     }
-
 
     //for loop to prompt user for password info 
     for (var i = 0; i < passOrder.length; i++) {
@@ -44,17 +44,19 @@ function generatePassword (){
             return;
           }
           else{
-            //de-increment the for-loop variable to re-ask and not skip this question, if answer was unacceptable
+            //de-increment the for-loop variable to re-ask and not skip this question, if the input was unacceptable
             alert("Sorry, this prompt can only take an integer between 8 and 128");
             i--;
           }
         }
         else {
-          //check whether they gave a Yes or No answer in proper format. 
+          //check whether they gave a Yes or No answer in proper format.
+          promptAnswer = promptAnswer.toUpperCase();
           if ((promptAnswer === "Y") || (promptAnswer === "N")){
             passData.push(promptAnswer);
           }
           else{
+            console.log("why is this failing");
             alert("This prompt is quite dim. Please only answer Y or N.");
             i--;
           }

@@ -6,7 +6,7 @@ You can even select whether you want to include uppercase letters, lowercase let
 
 ## Usage
 Simply go to https://dshowarth.github.io/Module-3-Challenge/, click the 'Generate Password' button, and follow the prompts on the screen. 
-![GIF demonstrating website usage](.\assets\images\PasswordGen.gif)
+![GIF demonstrating website usage](PasswordGen.gif)
 
 ## Lessons Learned
 - Objects are not ordered, so you can't iterate over them with a for loop

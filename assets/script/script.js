@@ -7,10 +7,10 @@ function randoNum (rangeNum){
 function generatePassword (){
     //create array to order the questions in a for loop
     var passOrder = ["passLength", "passUpper", "passLower", "passNum", "passSpec"]
-    var passData;
+    var passData = [];
     var passLength;
     var passInfo;
-    var passFinal;
+    var passFinal = [];
     //create object to store prompt messages
     var passQueries = {
       passLength: "How long would you like your password to be? Please write an integer between 8 and 128.",
@@ -24,7 +24,7 @@ function generatePassword (){
     //for loop to prompt user
     getAnswers:  
     for (var i = 0; i < passOrder.length; i++) {
-      var cancellation;
+      var cancellation = false;
       //function for making prompts and validating data
       function getData(){
         //begin infinitely nested if statements
@@ -36,6 +36,9 @@ function generatePassword (){
           promptAnswer = Number(promptAnswer);
           if (Number.isInteger(promptAnswer) && (8 <= promptAnswer) && (promptAnswer <= 128) ){
             passLength = promptAnswer;
+            console.log("made it into assigning number");
+            console.log(passLength);
+            return;
           }
           else{
             alert("Sorry, this prompt can only take an integer between 8 and 128");
@@ -48,7 +51,7 @@ function generatePassword (){
             cancellation = true;
           }
           if (promptAnswer === ("Y" || "N")){
-            passData[i] = promptAnswer;
+            passData.push(promptAnswer);
           }
           else{
             alert("This prompt is quite dim. Please only answer Y or N.");
@@ -60,13 +63,13 @@ function generatePassword (){
         break getAnswers;
       }
       getData(); 
-      //check for at least 1 Y
-      if (passData.toString === "NNNN"){
-        alert("You have to give us SOMETHING to work with.")
-      }
-      else{
-        passInfo = true;
-      }
+    }
+    //check for at least 1 Y
+    if (passData.toString === "NNNN"){
+      alert("You have to give us SOMETHING to work with.")
+    }
+    else{
+      passInfo = true;
     }
     function makePass(){
       //make strings of possible characters
@@ -79,17 +82,20 @@ function generatePassword (){
 
         function charGen() {
           var charType = randoNum(3);
-          if ((charType === 0) && (passDatas[0] === "Y")){
-            //append character to password array
+          if ((charType === 0) && (passData[0] === "Y")){
+            //append random uppercase letter
             passFinal.push(alphabet[randoNum(alphabet.length)].toUpperCase());
           }
-          else if ((charType === 1) && (passDatas[1] === "Y")){
+          else if ((charType === 1) && (passData[1] === "Y")){
+            //append random lowercase letter
             passFinal.push(alphabet[randoNum(alphabet.length)]);
           }
-          else if ((charType === 2) && (passDatas[2] === "Y")){
+          else if ((charType === 2) && (passData[2] === "Y")){
+            //append random special character
             passFinal.push(specChar[randoNum(specChar.length)]);
           }
-          else if ((charType === 3) && (passDatas[3] === "Y")){
+          else if ((charType === 3) && (passData[3] === "Y")){
+            //append random digit
             passFinal.push(randoNum(9));
           }
           else{

@@ -45,7 +45,9 @@ function generatePassword (){
           }
         }
         else {
-          if (promptAnswer === ("Y" || "N")){
+          console.log("entered YN loop");
+          if ((promptAnswer === "Y") || (promptAnswer === "N")){
+            console.log(promptAnswer);
             passData.push(promptAnswer);
           }
           else{
@@ -57,11 +59,15 @@ function generatePassword (){
       getData(); 
     }
     //check for at least 1 Y
-    if (passData.toString("N,N,N,N")){
+    if (passData.toString() === "N,N,N,N"){
+      console.log(passData.toString());
       alert("You have to give us SOMETHING to work with.")
     }
-    else if (passData.{
+    else if (passData.length === 4){
       passInfo = true;
+    }
+    else{
+      return;
     }
 
     function makePass(){

@@ -6,16 +6,17 @@ function randoNum (rangeNum){
 
 function generatePassword (){
   //create object for password answers
-    var passData = {
-      passLength: "",
-      passUpper: "",
-      passLower: "",
-      passNum: "",
-      passSpec: "",
-    }
+    // var passData = {
+    //   passLength: "",
+    //   passUpper: "",
+    //   passLower: "",
+    //   passNum: "",
+    //   passSpec: "",
+    // }
     //create array to order the questions in a for loop
     var passOrder = ["passLength", "passUpper", "passLower", "passNum", "passSpec"]
-    
+    var passDatas;
+    var passLength;
     //create object to store prompt messages
     var passQueries = {
       passLength: "How long would you like your password to be? Please write an integer between 8 and 128.",
@@ -42,7 +43,7 @@ function generatePassword (){
           }
           promptAnswer = Number(promptAnswer);
           if (Number.isInteger(promptAnswer) && (8 <= promptAnswer) && (promptAnswer <= 128) ){
-            passData.passLength = promptAnswer;
+            passLength = promptAnswer;
           }
           else{
             alert("Sorry, this prompt can only take an integer between 8 and 128");
@@ -55,7 +56,7 @@ function generatePassword (){
             cancellation = true;
           }
           if (promptAnswer === ("Y" || "N")){
-            passData[passOrder[i]] = promptAnswer;
+            passDatas[i] = promptAnswer;
           }
           else{
             alert("This prompt is quite dim. Please only answer Y or N.");
@@ -69,17 +70,37 @@ function generatePassword (){
       getData();
       passInfo = true;
     }
-    function makePass{
+    function makePass(){
       //make strings of possible characters
       var alphabet = "abcdefghijklmnopqrstuvwxyz";
       var specChar = " !#\"$%&'()*+,-./:;<=>?@[\]^_`{|}~";
 
-      for (var i = 0; i < passData.passLength; i++){
-        // generate random number for which type of character to use
-        // generate character based on number
-        //append character to password array
-        
-      }
+      for (var i = 0; i < passLength; i++){
+        //generate random number for which type of character to use
+        //generate character based on number
+
+        function charGen() {
+          var charType = randoNum(3);
+          if ((charType === 0) && (passDatas[0] === "Y")){
+            //append character to password array
+            passFinal.push(alphabet[randoNum(alphabet.length)].toUpperCase());
+          }
+          else if ((charType === 1) && (passDatas[1] === "Y")){
+            passFinal.push(alphabet[randoNum(alphabet.length)]);
+          }
+          else if ((charType === 2) && (passDatas[2] === "Y")){
+            passFinal.push(specChar[randoNum(specChar.length)]);
+          }
+          else if ((charType === 3) && (passDatas[3] === "Y")){
+            passFinal.push(randoNum(9));
+          }
+          else{
+            charGen();
+          }
+        }
+        charGen();
+      }    
+    }   
       //convert password array to string
     }
     //if user answered all prompts correctly, make password

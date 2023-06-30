@@ -10,7 +10,7 @@ function generatePassword (){
     var passData = [];
     var passLength;
     var passInfo;
-    var passFinal = [];
+    var passFinal = "";
     //create object to store prompt messages
     var passQueries = {
       passLength: "How long would you like your password to be? Please write an integer between 8 and 128.",
@@ -84,19 +84,19 @@ function generatePassword (){
           var charType = randoNum(3);
           if ((charType === 0) && (passData[0] === "Y")){
             //append random uppercase letter
-            passFinal.push(alphabet[randoNum(alphabet.length)].toUpperCase());
+            passFinal = passFinal.concat(alphabet[randoNum(alphabet.length)].toUpperCase());
           }
           else if ((charType === 1) && (passData[1] === "Y")){
             //append random lowercase letter
-            passFinal.push(alphabet[randoNum(alphabet.length)]);
+            passFinal = passFinal.concat(alphabet[randoNum(alphabet.length)]);
           }
           else if ((charType === 2) && (passData[2] === "Y")){
             //append random special character
-            passFinal.push(specChar[randoNum(specChar.length)]);
+            passFinal = passFinal.concat(specChar[randoNum(specChar.length)]);
           }
           else if ((charType === 3) && (passData[3] === "Y")){
             //append random digit
-            passFinal.push(randoNum(9));
+            passFinal = passFinal.concat(randoNum(9));
           }
           else{
             charGen();
@@ -105,7 +105,10 @@ function generatePassword (){
         charGen();
       }
     //convert password array to string
-    passFinal = passFinal.toString();
+    // console.log("pass pre join" + passFinal);
+    // passFinal = passFinal.join();
+    // console.log("pass post join" + passString);
+
     }   
 
     //if user answered all prompts correctly, make password

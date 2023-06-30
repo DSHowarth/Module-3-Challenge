@@ -12,6 +12,7 @@ function generatePassword (){
     var passInfo;
     var passFinal = "";
     var usedChar = [0, 0, 0, 0]
+    var usedCharCounter = 0;
     //create object to store prompt messages
     var passQueries = {
       passLength: "How long would you like your password to be? Please write an integer between 8 and 128.",
@@ -33,7 +34,6 @@ function generatePassword (){
       function getData(){
         //begin infinitely nested if statements
         if (passOrder[i] === "passLength"){
-          // var promptAnswer = prompt(passQueries[passOrder[i]]);
           promptAnswer = Number(promptAnswer);
           if (Number.isInteger(promptAnswer) && (8 <= promptAnswer) && (promptAnswer <= 128) ){
             passLength = promptAnswer;
@@ -45,9 +45,7 @@ function generatePassword (){
           }
         }
         else {
-          console.log("entered YN loop");
           if ((promptAnswer === "Y") || (promptAnswer === "N")){
-            console.log(promptAnswer);
             passData.push(promptAnswer);
           }
           else{
@@ -66,22 +64,19 @@ function generatePassword (){
     else if (passData.length === 4){
       passInfo = true;
     }
-    else{
-      return;
-    }
-
     function makePass(){
       //make strings of possible characters
       var alphabet = "abcdefghijklmnopqrstuvwxyz";
       var specChar = " !#\"$%&'()*+,-./:;<=>?@[\]^_`{|}~";
+      passFinal = "";
 
-
+      console.log("usedChar going into for loop " + usedChar);
       for (var i = 0; i < passLength; i++){
         //generate random number for which type of character to use
         //generate character based on number
 
         function charGen() {
-          var charType = randoNum(3);
+          var charType = randoNum(4);
           if ((charType === 0) && (passData[0] === "Y")){
             //append random uppercase letter
             passFinal = passFinal.concat(alphabet[randoNum(alphabet.length)].toUpperCase());
@@ -99,7 +94,7 @@ function generatePassword (){
           }
           else if ((charType === 3) && (passData[3] === "Y")){
             //append random digit
-            passFinal = passFinal.concat(randoNum(9));
+            passFinal = passFinal.concat(randoNum(9).toString());
             usedChar[3] = 1;
           }
           else{
@@ -108,6 +103,7 @@ function generatePassword (){
         }
         charGen();
       }
+      console.log("usedChar leaving for loop " + usedChar);
     }   
 
     //if user answered all prompts correctly, make password
@@ -116,14 +112,17 @@ function generatePassword (){
         makePass();
         //check to make sure all requested character types are used. If not, make new password
         for(var i = 0; i < usedChar.length; i++){
-            if((usedChar[i] === 0) && (passData[i] === "N")){
+            if((usedChar[i] === 0) && (passData[i] === "Y")){
               usedChar = [0, 0, 0, 0];
-              console.log("we had to try again");
-              return;
-            }
-            else{
+              usedCharCounter = 0;
               break;
             }
+            else{
+              usedCharCounter++;
+            }
+        }
+        if (usedCharCounter === 4){
+          break;
         }
     }
     }   
@@ -131,6 +130,7 @@ function generatePassword (){
       return;
     }
     // return made password to writePassword()
+    console.log(passFinal + " end password")
     return passFinal;
 }
 

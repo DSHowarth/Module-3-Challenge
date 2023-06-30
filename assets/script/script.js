@@ -5,18 +5,12 @@ function randoNum (rangeNum){
 }
 
 function generatePassword (){
-  //create object for password answers
-    // var passData = {
-    //   passLength: "",
-    //   passUpper: "",
-    //   passLower: "",
-    //   passNum: "",
-    //   passSpec: "",
-    // }
     //create array to order the questions in a for loop
     var passOrder = ["passLength", "passUpper", "passLower", "passNum", "passSpec"]
-    var passDatas;
+    var passData;
     var passLength;
+    var passInfo;
+    var passFinal;
     //create object to store prompt messages
     var passQueries = {
       passLength: "How long would you like your password to be? Please write an integer between 8 and 128.",
@@ -26,8 +20,6 @@ function generatePassword (){
       passSpec: "Would you like special characters? Please answer Y/N.",
     }
 
-    var passInfo;
-    var passFinal;
 
     //for loop to prompt user
     getAnswers:  
@@ -56,7 +48,7 @@ function generatePassword (){
             cancellation = true;
           }
           if (promptAnswer === ("Y" || "N")){
-            passDatas[i] = promptAnswer;
+            passData[i] = promptAnswer;
           }
           else{
             alert("This prompt is quite dim. Please only answer Y or N.");
@@ -67,8 +59,14 @@ function generatePassword (){
       if(cancellation){
         break getAnswers;
       }
-      getData();
-      passInfo = true;
+      getData(); 
+      //check for at least 1 Y
+      if (passData.toString === "NNNN"){
+        alert("You have to give us SOMETHING to work with.")
+      }
+      else{
+        passInfo = true;
+      }
     }
     function makePass(){
       //make strings of possible characters
@@ -99,10 +97,11 @@ function generatePassword (){
           }
         }
         charGen();
-      }    
+      }
+    //convert password array to string
+    passFinal = passFinal.toString();
     }   
-      //convert password array to string
-    }
+
     //if user answered all prompts correctly, make password
     if (passInfo){
       makePass();

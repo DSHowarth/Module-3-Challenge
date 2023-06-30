@@ -11,6 +11,7 @@ function generatePassword (){
     var passLength;
     var passInfo;
     var passFinal = "";
+    var usedChar = [0, 0, 0, 0]
     //create object to store prompt messages
     var passQueries = {
       passLength: "How long would you like your password to be? Please write an integer between 8 and 128.",
@@ -24,57 +25,50 @@ function generatePassword (){
     //for loop to prompt user
     getAnswers:  
     for (var i = 0; i < passOrder.length; i++) {
-      var cancellation = false;
       //function for making prompts and validating data
+      var promptAnswer = prompt(passQueries[passOrder[i]]);
+      if (promptAnswer === null){
+        break;
+      }
       function getData(){
         //begin infinitely nested if statements
         if (passOrder[i] === "passLength"){
-          var promptAnswer = prompt(passQueries[passOrder[i]]);
-          if (promptAnswer === null){ // if user hits cancel, exit for loop
-            cancellation = true;
-          }
+          // var promptAnswer = prompt(passQueries[passOrder[i]]);
           promptAnswer = Number(promptAnswer);
           if (Number.isInteger(promptAnswer) && (8 <= promptAnswer) && (promptAnswer <= 128) ){
             passLength = promptAnswer;
-            console.log("made it into assigning number");
-            console.log(passLength);
             return;
           }
           else{
             alert("Sorry, this prompt can only take an integer between 8 and 128");
-            getData();
+            i--;
           }
         }
         else {
-          var promptAnswer = prompt(passQueries[passOrder[i]]);
-          if (promptAnswer === null){
-            cancellation = true;
-          }
           if (promptAnswer === ("Y" || "N")){
             passData.push(promptAnswer);
           }
           else{
             alert("This prompt is quite dim. Please only answer Y or N.");
-            getData();
+            i--;
           }
         }
-      }
-      if(cancellation){
-        break getAnswers;
       }
       getData(); 
     }
     //check for at least 1 Y
-    if (passData.toString === "NNNN"){
+    if (passData.toString("N,N,N,N")){
       alert("You have to give us SOMETHING to work with.")
     }
-    else{
+    else if (passData.{
       passInfo = true;
     }
+
     function makePass(){
       //make strings of possible characters
       var alphabet = "abcdefghijklmnopqrstuvwxyz";
       var specChar = " !#\"$%&'()*+,-./:;<=>?@[\]^_`{|}~";
+
 
       for (var i = 0; i < passLength; i++){
         //generate random number for which type of character to use
@@ -85,18 +79,22 @@ function generatePassword (){
           if ((charType === 0) && (passData[0] === "Y")){
             //append random uppercase letter
             passFinal = passFinal.concat(alphabet[randoNum(alphabet.length)].toUpperCase());
+            usedChar[0] = 1;
           }
           else if ((charType === 1) && (passData[1] === "Y")){
             //append random lowercase letter
             passFinal = passFinal.concat(alphabet[randoNum(alphabet.length)]);
+            usedChar[1] = 1;
           }
           else if ((charType === 2) && (passData[2] === "Y")){
             //append random special character
             passFinal = passFinal.concat(specChar[randoNum(specChar.length)]);
+            usedChar[2] = 1;
           }
           else if ((charType === 3) && (passData[3] === "Y")){
             //append random digit
             passFinal = passFinal.concat(randoNum(9));
+            usedChar[3] = 1;
           }
           else{
             charGen();
@@ -104,17 +102,25 @@ function generatePassword (){
         }
         charGen();
       }
-    //convert password array to string
-    // console.log("pass pre join" + passFinal);
-    // passFinal = passFinal.join();
-    // console.log("pass post join" + passString);
-
     }   
 
     //if user answered all prompts correctly, make password
     if (passInfo){
-      makePass();
+      while(1){
+        makePass();
+        //check to make sure all requested character types are used. If not, make new password
+        for(var i = 0; i < usedChar.length; i++){
+            if((usedChar[i] === 0) && (passData[i] === "N")){
+              usedChar = [0, 0, 0, 0];
+              console.log("we had to try again");
+              return;
+            }
+            else{
+              break;
+            }
+        }
     }
+    }   
     else{
       return;
     }

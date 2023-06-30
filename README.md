@@ -17,6 +17,6 @@ every time you try to test something.
 
 
 ## Credits
-Starter code obtained from https://github.com/coding-boot-camp/friendly-parakeet
+Starter code obtained from https://github.com/coding-boot-camp/friendly-parakeet \
 Gif captured with https://github.com/NickeManarin/ScreenToGif
 

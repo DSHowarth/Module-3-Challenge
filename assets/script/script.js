@@ -7,10 +7,11 @@ function randoNum (rangeNum){
 function generatePassword (){
     //create array to order the questions in a for loop
     var passOrder = ["passLength", "passUpper", "passLower", "passNum", "passSpec"]
+    //define empty array for future .push(), define empty string for future .concat()
     var passData = [];
+    var passFinal = "";
     var passLength;
     var passInfo;
-    var passFinal = "";
     var usedChar = [0, 0, 0, 0]
     var usedCharCounter = 0;
     //create object to store prompt messages
@@ -23,28 +24,33 @@ function generatePassword (){
     }
 
 
-    //for loop to prompt user
-    getAnswers:  
+    //for loop to prompt user for password info 
     for (var i = 0; i < passOrder.length; i++) {
-      //function for making prompts and validating data
+      //prompt for answers, in order
       var promptAnswer = prompt(passQueries[passOrder[i]]);
+      //if user hits cancel, end process
       if (promptAnswer === null){
         break;
       }
+      //function for verifying and storing answers
       function getData(){
-        //begin infinitely nested if statements
+        //passLength is the only number, so it gets its own if-statement
         if (passOrder[i] === "passLength"){
+          //convert to number
           promptAnswer = Number(promptAnswer);
+          //check if value is in range or not a number
           if (Number.isInteger(promptAnswer) && (8 <= promptAnswer) && (promptAnswer <= 128) ){
             passLength = promptAnswer;
             return;
           }
           else{
+            //de-increment the for-loop variable to re-ask and not skip this question, if answer was unacceptable
             alert("Sorry, this prompt can only take an integer between 8 and 128");
             i--;
           }
         }
         else {
+          //check whether they gave a Yes or No answer in proper format. 
           if ((promptAnswer === "Y") || (promptAnswer === "N")){
             passData.push(promptAnswer);
           }
@@ -64,17 +70,17 @@ function generatePassword (){
     else if (passData.length === 4){
       passInfo = true;
     }
+
     function makePass(){
       //make strings of possible characters
       var alphabet = "abcdefghijklmnopqrstuvwxyz";
       var specChar = " !#\"$%&'()*+,-./:;<=>?@[\]^_`{|}~";
+      //reset passFinal in case this isn't the first attempt
       passFinal = "";
 
-      console.log("usedChar going into for loop " + usedChar);
       for (var i = 0; i < passLength; i++){
         //generate random number for which type of character to use
         //generate character based on number
-
         function charGen() {
           var charType = randoNum(4);
           if ((charType === 0) && (passData[0] === "Y")){
@@ -97,13 +103,13 @@ function generatePassword (){
             passFinal = passFinal.concat(randoNum(9).toString());
             usedChar[3] = 1;
           }
+          //if the random number generator rolled a character type that the user didn't select, re-roll
           else{
             charGen();
           }
         }
         charGen();
       }
-      console.log("usedChar leaving for loop " + usedChar);
     }   
 
     //if user answered all prompts correctly, make password
@@ -124,14 +130,16 @@ function generatePassword (){
         if (usedCharCounter === 4){
           break;
         }
+
+      }      
     }
-    }   
+    //prevents the password box from showing 'undefined' if password creation was canceled by prompt   
     else{
-      return;
+      return "";
     }
-    // return made password to writePassword()
-    console.log(passFinal + " end password")
+    //send password to writePassword()
     return passFinal;
+
 }
 
 

@@ -96,13 +96,13 @@ function generatePassword (){
             usedChar[1] = 1;
           }
           else if ((charType === 2) && (passData[2] === "Y")){
-            //append random special character
-            passFinal = passFinal.concat(specChar[randoNum(specChar.length)]);
+            //append random digit
+            passFinal = passFinal.concat(randoNum(9).toString());
             usedChar[2] = 1;
           }
           else if ((charType === 3) && (passData[3] === "Y")){
-            //append random digit
-            passFinal = passFinal.concat(randoNum(9).toString());
+            //append random special character
+            passFinal = passFinal.concat(specChar[randoNum(specChar.length)]);
             usedChar[3] = 1;
           }
           //if the random number generator rolled a character type that the user didn't select, re-roll
